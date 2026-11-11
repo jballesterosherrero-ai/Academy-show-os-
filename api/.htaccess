@@ -1,0 +1,4 @@
+# Prevent direct HTTP access to the private API key configuration.
+<Files "config.php">
+    Require all denied
+</Files>
