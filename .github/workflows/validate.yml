@@ -1,0 +1,36 @@
+name: Validate SHOW OS CAMPUS
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+      - name: Lint PHP backend
+        run: php -l api/tutor.php
+      - name: Check campus data JavaScript
+        run: node --check campus-data.js
+      - name: Check inline application JavaScript
+        run: |
+          python3 - <<'PY'
+          import re
+          from pathlib import Path
+          html = Path("index.html").read_text(encoding="utf-8")
+          scripts = re.findall(r"<script>([\\s\\S]*?)</script>", html)
+          if not scripts:
+              raise SystemExit("No inline application script was found")
+          Path("/tmp/show-os-inline.js").write_text("\\n".join(scripts), encoding="utf-8")
+          PY
+          node --check /tmp/show-os-inline.js
+      - name: Validate teaching data
+        run: |
+          node -e "global.window={}; require('./campus-data.js'); const d=window.SHOWOS_DATA; if(d.cases.length!==5 || d.curriculum.length!==5 || d.glossary.length<30 || d.devices.length<10) process.exit(1); console.log('levels='+d.curriculum.length+' terms='+d.glossary.length+' devices='+d.devices.length);"
