@@ -124,7 +124,7 @@ export default {
         method: "POST",
         headers: { "Authorization": `Bearer ${env.OPENAI_API_KEY}`, "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: env.OPENAI_MODEL || "gpt-6-astra",
+          model: env.OPENAI_MODEL || "gpt-6.1-sol",
           instructions: SYSTEM_PROMPT,
           input,
           text: { format: { type: "json_schema", name: "showos_assessment", strict: true, schema } },
