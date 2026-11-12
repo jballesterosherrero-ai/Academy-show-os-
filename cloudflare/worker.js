@@ -78,7 +78,12 @@ export default {
     const origin = request.headers.get("Origin") || "";
     const cors = corsHeaders(origin, env);
     if (env.ALLOWED_ORIGIN && origin !== env.ALLOWED_ORIGIN) return json({ error: "Origen no autorizado." }, 403, cors);
+    const url = new URL(request.url);
+    if (request.method === "GET" && (url.pathname === "/" || url.pathname === "/api/tutor")) {
+      return json({ service: "SHOW OS CAMPUS Tutor IA", status: "online", endpoint: "/api/tutor", method: "POST" }, 200, cors);
+    }
     if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: cors });
+    if (url.pathname !== "/api/tutor") return json({ error: "Ruta no encontrada." }, 404, cors);
     if (request.method !== "POST") return json({ error: "Método no permitido. Utiliza POST." }, 405, { ...cors, Allow: "POST, OPTIONS" });
 
     const betaCode = env.SHOWOS_BETA_CODE || "";
@@ -119,7 +124,7 @@ export default {
         method: "POST",
         headers: { "Authorization": `Bearer ${env.OPENAI_API_KEY}`, "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: env.OPENAI_MODEL || "gpt-6.1-sol",
+          model: env.OPENAI_MODEL || "gpt-6-astra",
           instructions: SYSTEM_PROMPT,
           input,
           text: { format: { type: "json_schema", name: "showos_assessment", strict: true, schema } },
