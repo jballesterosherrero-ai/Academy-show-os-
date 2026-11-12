@@ -52,7 +52,12 @@ const curriculum=window.SHOWOS_DATA.curriculum;
 const glossary=window.SHOWOS_DATA.glossary;
 const devices=window.SHOWOS_DATA.devices;
 const systems=[['NovaStar H9 / NovaLCT','H9: procesador multipantalla modular (video wall splicer) con tarjetas según configuración. NovaLCT: configuración y mapeo de receiving cards compatibles.'],['CVT4K / fibra óptica','Transporte óptico. Identificar variante exacta (por ejemplo CVT4K-M), tipo de fibra, ópticas, conectores y rutas de respaldo.'],['Analog Way Aquilon C+','Procesador multipantalla: EDID, canvas, layers, escalado, formatos y sincronía externa; capacidades según tarjetas y firmware.'],['Dataton WATCHOUT / WATCHPAX','Software de producción y nodos/servidores de reproducción; comprobar versión, funciones, displays, red y sincronización.'],['Taller de reparación SMD','Diagnóstico electrónico con ESD, trazabilidad, inspección, retrabajo controlado y verificación funcional.'],['Seguridad y producción','Riesgo eléctrico, estructuras, distribución, fibra, comunicación de show, prevención y documentación.']];
-let data=JSON.parse(localStorage.getItem('showos-progress')||'{"passed":{},"scores":{}}');
+let data;
+try{
+ const saved=JSON.parse(localStorage.getItem('showos-progress')||'null');
+ if(saved&&saved.version===2&&saved.passed&&saved.scores){data=saved;}
+ else{data={version:2,passed:{},scores:{}};localStorage.setItem('showos-progress',JSON.stringify(data));}
+}catch(e){data={version:2,passed:{},scores:{}};localStorage.setItem('showos-progress',JSON.stringify(data));}
 function save(){localStorage.setItem('showos-progress',JSON.stringify(data));updateProgress()}
 function showPage(p){document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));document.getElementById(p).classList.remove('hidden');document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===p));let titles={home:['Domina el show. Controla el sistema.','Formación basada en el trabajo real de un técnico de vídeo y pantallas LED.'],day:['Un día en el puesto de trabajo','La jornada operativa, paso a paso.'],systems:['Sistemas y competencias','El mapa de conocimientos que exige el puesto.'],course:['Ruta formativa','Objetivos, requisitos, prácticas y evidencias por nivel.'],equipment:['Librería de aparatos','Fichas de hardware, software, conexiones y diagnóstico.'],vocab:['Vocabulario técnico','Diccionario operativo para hablar el mismo lenguaje en el control.'],sim:['Simulador de incidencias','Práctica formativa y evaluación técnica por separado.'],cert:['Tu acreditación profesional','Demuestra competencias y genera tu documento.'],profile:['Mi expediente','Historial de evaluación y progreso.']};pageTitle.textContent=titles[p][0];pageSub.textContent=titles[p][1];if(p==='profile')renderProfile()}
 document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
@@ -66,6 +71,10 @@ async function sendToTutor(mode="coach"){
  let text=answer.value.trim();
  if(text.length<30){addBubble("tutor","Desarrolla un poco más tu razonamiento. Explica qué has observado, qué hipótesis tienes y cómo actuarías con seguridad.");return}
  let n=+level.value+1;
+ if(mode==="assess"&&n>1){
+  let prior=true;for(let k=1;k<n;k++){if(!data.passed[k])prior=false;}
+  if(!prior){addBubble("tutor","Este nivel requiere superar primero los niveles anteriores. Puedes seguir practicando, pero la evaluación formal se abrirá cuando el itinerario previo esté aprobado.");return;}
+ }
  let payload={level:n,caseTitle:cases[n-1][0],scenario:cases[n-1][1],message:text,history:tutorHistory.slice(-10),mode};
  addBubble("student",text);tutorHistory.push({role:"user",content:text});answer.value="";
  sendTutor.disabled=true;evaluateTutor.disabled=true;
@@ -110,7 +119,7 @@ function initialiseKnowledgeBase(){
  renderCurriculum();renderGlossary();renderDevices();
 }
 
-function updateProgress(){let n=Object.keys(data.passed).length;approvedCount.textContent=n+'/5';homeProgress.style.width=(n*20)+'%';progressLabel.textContent=n+' de 5 simulaciones aprobadas';let vals=Object.values(data.scores);bestScore.textContent=vals.length?Math.max(...vals)+'/100':'—'}function renderProfile(){profileResults.innerHTML=cases.map((c,i)=>`<div class="module"><div><b>${c[0]}</b><p>${data.scores[i+1]!==undefined?'Puntuación: '+data.scores[i+1]+'/100':'Sin evaluar'}</p></div><span class="tag">${data.passed[i+1]?'APROBADO':'PENDIENTE'}</span></div>`).join('')}
+function updateProgress(){let n=Object.keys(data.passed).length;approvedCount.textContent=n+'/5';homeProgress.style.width=(n*20)+'%';progressLabel.textContent=n+' de 5 niveles aprobados por evaluación formal';let vals=Object.values(data.scores);bestScore.textContent=vals.length?Math.max(...vals)+'/100':'—'}function renderProfile(){profileResults.innerHTML=cases.map((c,i)=>`<div class="module"><div><b>${c[0]}</b><p>${data.scores[i+1]!==undefined?'Puntuación: '+data.scores[i+1]+'/100':'Sin evaluar'}</p></div><span class="tag">${data.passed[i+1]?'APROBADO':'PENDIENTE'}</span></div>`).join('')}
 function renderCert(){let name=studentName.value.trim();if(!name){alert('Introduce el nombre del alumno.');return}certName.textContent=name;certDate.textContent='Fecha de generación: '+new Date().toLocaleDateString('es-ES');certId.textContent='ID de expediente local: SHOWOS-'+Date.now().toString(36).toUpperCase()+' · '+Object.keys(data.passed).length+'/5 niveles superados';if(Object.keys(data.passed).length<5)alert('Vista previa informativa: aún no se han superado los cinco niveles. No se emite acreditación de aptitud.');}
-function resetProgress(){if(confirm('¿Borrar el progreso guardado en este navegador?')){data={passed:{},scores:{}};save();renderProfile()}}function exportProgress(){let blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='expediente-show-os.json';a.click();URL.revokeObjectURL(a.href)}initialiseKnowledgeBase();updateProgress();
+function resetProgress(){if(confirm('¿Borrar el progreso guardado en este navegador?')){data={version:2,passed:{},scores:{}};save();renderProfile()}}function exportProgress(){let blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='expediente-show-os.json';a.click();URL.revokeObjectURL(a.href)}initialiseKnowledgeBase();updateProgress();
 </script></body></html>
