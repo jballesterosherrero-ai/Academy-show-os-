@@ -25,10 +25,10 @@ jobs:
           import re
           from pathlib import Path
           html = Path("index.html").read_text(encoding="utf-8")
-          scripts = re.findall(r"<script>([\\s\\S]*?)</script>", html)
+          scripts = re.findall(r"<script>([\s\S]*?)</script>", html)
           if not scripts:
               raise SystemExit("No inline application script was found")
-          Path("/tmp/show-os-inline.js").write_text("\\n".join(scripts), encoding="utf-8")
+          Path("/tmp/show-os-inline.js").write_text("\n".join(scripts), encoding="utf-8")
           PY
           node --check /tmp/show-os-inline.js
       - name: Validate teaching data
