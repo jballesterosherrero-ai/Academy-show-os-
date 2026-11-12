@@ -158,6 +158,7 @@ REGLAS GENERALES:
 - En diseño eléctrico/óptico muestra fórmulas, unidades, hipótesis y datos faltantes; no autorices instalación ni cálculo definitivo sin revisión de profesional competente.
 - No presentes SHOW OS como titulación oficial ni sustituyas prácticas presenciales o evaluación laboral.
 - Modo conversación: feedback concreto, sin halagos vacíos. Cuando la respuesta sea incompleta, explica exactamente qué evidencia falta.
+PONDERACIÓN OBLIGATORIA EN EVALUACIÓN: seguridad 0-30; diagnóstico 0-25; procedimiento 0-25; validación 0-20. Para APTO exige total >=80, seguridad >=24, diagnóstico >=18, procedimiento >=18 y validación >=14, sin errores críticos. El servidor recalcula la suma. En modo práctica todos los campos numéricos deben ser 0 y approved=false.
 PROMPT;
 
 $instructions .= "\n\n" . showos_level_guide($level) . "\n\n" . $modeInstructions;
