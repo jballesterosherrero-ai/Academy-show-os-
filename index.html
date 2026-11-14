@@ -43,13 +43,20 @@ function storeJson(key,value){try{localStorage.setItem(key,JSON.stringify(value)
 let courseProgress=readStoredJson('showos-course-progress',{});if(!courseProgress||typeof courseProgress!=='object'||Array.isArray(courseProgress))courseProgress={};
 function renderCourses(){
  const target=document.getElementById('courseGrid'); if(!target) return;
- target.innerHTML=premiumCourses.map(course=>{
+ const q=(document.getElementById('courseSearch')?.value||'').trim().toLocaleLowerCase('es');
+ const filtered=premiumCourses.filter(course=>[course.title,course.level,course.pitch,course.prerequisites,...course.outcomes,...course.modules.flatMap(m=>[m.name,m.lab,m.evidence,...m.lessons])].join(' ').toLocaleLowerCase('es').includes(q));
+ const totalLessons=premiumCourses.reduce((sum,c)=>sum+c.modules.reduce((n,m)=>n+m.lessons.length,0),0);
+ const doneLessons=premiumCourses.reduce((sum,c)=>sum+c.modules.reduce((n,m,mi)=>n+m.lessons.filter((lesson,li)=>(courseProgress[c.id]||[]).includes(mi+'-'+li)).length,0),0);
+ const summary=document.getElementById('courseSummary');
+ if(summary)summary.textContent='Catálogo: '+premiumCourses.length+' cursos · '+totalLessons+' lecciones · Progreso '+doneLessons+'/'+totalLessons+' · Mostrando '+filtered.length;
+ target.innerHTML=filtered.map(course=>{
   const lessons=course.modules.flatMap((m,mi)=>m.lessons.map((lesson,li)=>({key:mi+'-'+li,lesson})));
   const done=lessons.filter(x=>courseProgress[course.id]?.includes(x.key)).length;
   const pct=lessons.length?Math.round(done/lessons.length*100):0;
   return `<article class="course-card"><div class="course-head"><div><div class="eyebrow">CURSO 0${course.n} · ${course.level}</div><h3>${course.title}</h3></div><div class="course-price">1.500 €<small>precio objetivo</small></div></div><p class="muted">${course.pitch}</p><div class="course-meta"><span>${course.hours} horas</span><span>${course.modules.length} unidades</span><span>${lessons.length} lecciones</span></div><div class="course-progress"><i style="width:${pct}%"></i></div><small class="muted">${done}/${lessons.length} lecciones marcadas · ${pct}%</small><details class="course-detail"><summary>Ver programa completo y prácticas</summary><div class="course-body"><p><b>Requisitos:</b> ${course.prerequisites}</p><h4>Competencias al finalizar</h4><ul>${course.outcomes.map(x=>`<li>${x}</li>`).join('')}</ul><h4>Unidades formativas</h4>${course.modules.map((m,mi)=>`<div class="course-module"><h4>${mi+1}. ${m.name}</h4>${m.lessons.map((lesson,li)=>{const key=mi+'-'+li;const checked=(courseProgress[course.id]||[]).includes(key);return `<label class="course-lesson"><input type="checkbox" data-course="${course.id}" data-lesson="${key}" ${checked?'checked':''}><span>${lesson}</span></label>`}).join('')}<p><b>Práctica de taller:</b> ${m.lab}</p><p><b>Evidencia:</b> ${m.evidence}</p></div>`).join('')}<h4>Proyecto final</h4><p>${course.final}</p><h4>Evaluación</h4><p>${course.assessment}</p><h4>Qué debe incluir el curso de 1.500 €</h4><p>${course.included}</p><h4>Fuentes del fabricante y documentación base</h4><ul>${(course.resources||[]).map(r=>`<li><a href="${r.url}" target="_blank" rel="noopener noreferrer">${r.label}</a> — ${r.note}</li>`).join('')}</ul></div></details></article>`;
  }).join('');
 }
+document.getElementById('courseSearch')?.addEventListener('input',()=>renderCourses());
 document.getElementById('courseGrid')?.addEventListener('change',e=>{const cb=e.target;if(!cb.matches('input[type=checkbox][data-course]'))return;const id=cb.dataset.course,key=cb.dataset.lesson;courseProgress[id]=courseProgress[id]||[];courseProgress[id]=cb.checked?[...new Set([...courseProgress[id],key])]:courseProgress[id].filter(x=>x!==key);localStorage.setItem('showos-course-progress',JSON.stringify(courseProgress));renderCourses();});
 renderCourses();
 
