@@ -73,7 +73,7 @@ function saveTutorSettings(){
  const code=document.getElementById('betaCode').value.trim();
  const status=document.getElementById('tutorConfigStatus');
  if(!/^https:\/\/[^\s]+\/api\/tutor$/.test(endpoint)){status.textContent='Introduce una URL HTTPS terminada en /api/tutor.';return}
- if(code.length<8){status.textContent='El código beta debe tener al menos 8 caracteres.';return}
+ if(code.length<16){status.textContent='El código beta debe tener al menos 16 caracteres.';return}
  localStorage.setItem('showos_tutor_endpoint',endpoint);
  sessionStorage.setItem('showos_beta_code',code);
  status.textContent='Conexión guardada en este navegador.';
