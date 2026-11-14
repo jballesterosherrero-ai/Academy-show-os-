@@ -50,7 +50,7 @@ function corsHeaders(origin, env) {
   const allowOrigin = allowed ? (origin === allowed ? allowed : "") : "*";
   return {
     "Access-Control-Allow-Origin": allowOrigin,
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, X-SHOWOS-BETA-CODE",
     "Access-Control-Max-Age": "86400",
     "Vary": "Origin"
@@ -77,7 +77,7 @@ export default {
   async fetch(request, env) {
     const origin = request.headers.get("Origin") || "";
     const cors = corsHeaders(origin, env);
-    if (env.ALLOWED_ORIGIN && origin !== env.ALLOWED_ORIGIN) return json({ error: "Origen no autorizado." }, 403, cors);
+    if (env.ALLOWED_ORIGIN && origin && origin !== env.ALLOWED_ORIGIN) return json({ error: "Origen no autorizado." }, 403, cors);
     const url = new URL(request.url);
     if (request.method === "GET" && (url.pathname === "/" || url.pathname === "/api/tutor")) {
       return json({ service: "SHOW OS CAMPUS Tutor IA", status: "online", endpoint: "/api/tutor", method: "POST" }, 200, cors);
@@ -95,12 +95,22 @@ export default {
     const ip = request.headers.get("CF-Connecting-IP") || "unknown";
     if (!allowByRateLimit(ip)) return json({ error: "Demasiadas consultas seguidas. Espera diez minutos." }, 429, { ...cors, "Retry-After": "600" });
 
-    const contentLength = Number(request.headers.get("Content-Length") || 0);
-    if (contentLength > 30000) return json({ error: "La solicitud supera el tamaño permitido." }, 413, cors);
-
+    const contentType = request.headers.get("Content-Type") || "";
+    if (!contentType.toLowerCase().includes("application/json")) {
+      return json({ error: "Content-Type no válido. Utiliza application/json." }, 415, cors);
+    }
+    let rawBody;
+    try { rawBody = await request.text(); }
+    catch { return json({ error: "No se pudo leer la solicitud." }, 400, cors); }
+    if (new TextEncoder().encode(rawBody).byteLength > 30000) {
+      return json({ error: "La solicitud supera el tamaño permitido (30 KB)." }, 413, cors);
+    }
     let body;
-    try { body = await request.json(); }
+    try { body = JSON.parse(rawBody); }
     catch { return json({ error: "Solicitud JSON no válida." }, 400, cors); }
+    if (!body || typeof body !== "object" || Array.isArray(body)) {
+      return json({ error: "El cuerpo debe ser un objeto JSON." }, 400, cors);
+    }
 
     const level = Math.max(1, Math.min(5, Number.parseInt(body.level, 10) || 1));
     const message = String(body.message || "").trim().slice(0, 12000);
