@@ -1,46 +1,69 @@
-# Guía operativa de publicación — SHOW OS CAMPUS
+# Publicación v1.1 — SHOW OS CAMPUS
 
-## A. Publicar Worker (manual, sin GitHub Builds)
+## IONOS: actualizar la web
 
-1. Entrar en Cloudflare Dashboard.
-2. Workers & Pages → show-os-tutor.
-3. Abrir Edit code / Quick edit.
-4. Sustituir el código del ejemplo por el contenido de `cloudflare/worker.js` del repositorio.
-5. Save and Deploy.
+El archivo de entrada debe quedar exactamente aquí:
 
-## B. Crear secretos
+`/show-os-campus/index.html`
 
-En show-os-tutor → Settings → Variables and Secrets:
+1. En el Administrador de archivos de IONOS, abre la carpeta pública `show-os-campus`.
+2. Descarga una copia del `index.html` actual antes de sustituirlo.
+3. Sube el `index.html` de la raíz del repositorio directamente dentro de `show-os-campus`.
+4. No dejes carpetas intermedias, por ejemplo `show-os-campus/SHOW_OS_CAMPUS_PUBLICACION_IONOS/IONOS/index.html`.
+5. Abre `https://muelleaudiovisuales.com/show-os-campus/`. Si aparece una copia antigua, prueba una ventana privada o una recarga completa.
 
-- `OPENAI_API_KEY`: Secret, clave de OpenAI Platform.
-- `SHOWOS_BETA_CODE`: Secret, código aleatorio privado para los alumnos invitados.
-- `OPENAI_MODEL`: Text, `gpt-6.1-sol`.
-- `ALLOWED_ORIGIN`: Text, origen público del campus IONOS (esquema + dominio, sin ruta).
+No cambies DNS ni borres otras carpetas del hosting.
 
-No incluir claves en GitHub, HTML, este documento o conversaciones. Desplegar de nuevo si Cloudflare lo solicita al guardar secretos.
+## Mejoras incluidas en v1.1
 
-## C. Actualizar la web IONOS
+- Buscador del catálogo y resumen de cursos/lecciones.
+- Guarda el curso abierto mientras marcas lecciones.
+- Copia de seguridad exportable e importable del progreso.
+- La evaluación local es solo orientativa: no aprueba ni modifica el expediente.
+- Prueba de salud del Worker desde el simulador.
+- Diploma identificado como vista previa no verificable.
+- Mejoras de accesibilidad y validación del almacenamiento local.
 
-1. En GitHub, pulsa Code → Download ZIP.
-2. Extrae el ZIP en tu ordenador/móvil.
-3. Sube el `index.html` de la raíz al directorio `show-os-campus/` de IONOS, reemplazando el anterior.
-4. No es necesario cambiar DNS.
+## Cloudflare: actualizar el tutor
 
-## D. Conectar
+1. Cloudflare Dashboard → Workers & Pages → `show-os-tutor`.
+2. Abre Edit code / Quick edit.
+3. Sustituye el código completo por `cloudflare/worker.js` de este repositorio.
+4. Pulsa Save and Deploy.
 
-En el simulador del campus:
-- URL: `https://NOMBRE-WORKER.USUARIO.workers.dev/api/tutor`
-- Código: el mismo contenido que guardaste como secreto `SHOWOS_BETA_CODE`.
+## Variables y secretos
 
-Guardar conexión y probar un caso. Un error 401 indica código beta ausente/incorrecto; 403 suele indicar origen no permitido; 503 indica secreto OpenAI no configurado; 502 indica error al contactar OpenAI (revisar modelo/saldo/servicio).
+En `show-os-tutor` → Settings → Variables and Secrets:
 
-## E. Prueba de aceptación
+| Nombre | Tipo | Valor |
+|---|---|---|
+| `OPENAI_API_KEY` | Secret | Clave del proyecto OpenAI |
+| `SHOWOS_BETA_CODE` | Secret | Código privado aleatorio de al menos 16 caracteres |
+| `OPENAI_MODEL` | Text | `gpt-6.1-sol` |
+| `ALLOWED_ORIGIN` | Text | `https://muelleaudiovisuales.com` |
 
-- GET a la ruta `/api/tutor` debe devolver JSON de estado online.
-- Enviar una respuesta de prueba desde la página IONOS debe generar feedback y rúbrica.
-- Probar un segundo dispositivo con la misma URL y código (el progreso personal permanece local en cada navegador).
-- Revisar límites y alertas de gasto OpenAI.
+No pegues la clave OpenAI ni el código beta en GitHub, el HTML, capturas o conversaciones.
 
-## No abrir venta todavía
+## Conectar y comprobar
 
-La beta dispone de un catálogo detallado de 7 cursos, pero el precio objetivo de 1.500 € exige clases completas, instructor, prácticas supervisadas en equipo/laboratorio, feedback individual y evaluación presencial o equivalente. El diploma actual es una acreditación privada de formación, no una titulación oficial.
+En SHOW OS CAMPUS → Simulador IA:
+- Pega la URL real de tu Worker terminada en `/api/tutor`.
+- Introduce el código beta guardado como secreto.
+- Pulsa Guardar conexión y después Probar conexión.
+- La prueba de salud solo comprueba que el Worker responde. Para confirmar la evaluación real se necesita el código beta correcto, el secreto OpenAI y un modelo habilitado.
+
+## Pruebas de aceptación
+
+- La página carga en móvil y ordenador.
+- Se muestran los siete cursos y funciona el buscador.
+- Se puede marcar una lección y exportar/importar el progreso.
+- El Worker responde al GET de salud.
+- Una llamada IA real devuelve feedback y rúbrica.
+- Un error de conexión nunca cuenta como aprobado.
+
+## Límites conocidos
+
+- El progreso es local al navegador. La copia exportar/importar permite trasladarlo manualmente; no hay sincronización en nube.
+- La evaluación local es orientativa y no acredita niveles. La aprobación automática solo puede proceder del tutor conectado, y la decisión académica final requiere revisión humana.
+- El diploma es una acreditación privada, no un título oficial ni una certificación de fabricante.
+- El catálogo describe programas; no incluye por sí solo clases completas, docente, equipos, prácticas contratadas ni tutoría individual.
