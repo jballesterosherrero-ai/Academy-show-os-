@@ -135,7 +135,7 @@ function resetProgress(){
  updateProgress();renderProfile();renderCourses();
 }
 function exportProgress(){
- const backup={schemaVersion:2,exportedAt:new Date().toISOString(),data,courseProgress};
+ const backup={schemaVersion:2,exportedAt:new Date().toISOString(),courseProgress};
  const blob=new Blob([JSON.stringify(backup,null,2)],{type:'application/json'});
  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;
  a.download='show-os-campus-copia-'+new Date().toISOString().slice(0,10)+'.json';a.click();
@@ -147,24 +147,16 @@ function importProgress(event){
  reader.onload=()=>{
   try{
    const parsed=JSON.parse(String(reader.result||'{}'));
-   const incoming=parsed.data&&parsed.schemaVersion?parsed.data:parsed;
-   if(!incoming||typeof incoming!=='object'||!incoming.passed||!incoming.scores)throw new Error('El archivo no tiene el formato de SHOW OS.');
-   const nextData={passed:{},scores:{}};
-   for(let i=1;i<=5;i++){
-    if(incoming.passed[i]===true)nextData.passed[i]=true;
-    const score=Number(incoming.scores[i]);if(Number.isFinite(score)&&score>=0&&score<=100)nextData.scores[i]=score;
-   }
-   const sourceCourses=parsed.courseProgress&&typeof parsed.courseProgress==='object'?parsed.courseProgress:{};
+   if(!parsed||typeof parsed!=='object'||!parsed.courseProgress||typeof parsed.courseProgress!=='object'||Array.isArray(parsed.courseProgress))throw new Error('El archivo no contiene una copia de progreso de cursos válida.');
    const nextCourses={};
    for(const course of premiumCourses){
-    const entries=Array.isArray(sourceCourses[course.id])?sourceCourses[course.id]:[];
+    const entries=Array.isArray(parsed.courseProgress[course.id])?parsed.courseProgress[course.id]:[];
     const valid=new Set(course.modules.flatMap((m,mi)=>m.lessons.map((lesson,li)=>mi+'-'+li)));
     nextCourses[course.id]=[...new Set(entries.filter(k=>valid.has(k)))];
    }
-   if(!confirm('La importación sustituirá el progreso de este navegador. ¿Continuar?'))return;
-   data=nextData;courseProgress=nextCourses;
-   storeJson('showos-progress',data);storeJson('showos-course-progress',courseProgress);
-   updateProgress();renderProfile();renderCourses();alert('Copia importada correctamente.');
+   if(!confirm('Se importarán solo las lecciones marcadas. Las evaluaciones y aprobados del expediente no se transfieren. ¿Continuar?'))return;
+   courseProgress=nextCourses;storeJson('showos-course-progress',courseProgress);
+   renderCourses();alert('Copia de lecciones importada correctamente.');
   }catch(error){alert('No se pudo importar: '+(error.message||'archivo no válido'))}
   finally{event.target.value=''}
  };
