@@ -64,6 +64,6 @@ En SHOW OS CAMPUS → Simulador IA:
 ## Límites conocidos
 
 - El progreso es local al navegador. La copia exportar/importar permite trasladarlo manualmente; no hay sincronización en nube.
-- La evaluación local es orientativa y no acredita niveles. La aprobación automática solo puede proceder del tutor conectado, y la decisión académica final requiere revisión humana.
+- La evaluación local es orientativa y no acredita niveles. La copia de progreso importa/exporta únicamente lecciones marcadas; no transfiere notas ni aprobados. La aprobación del tutor conectado también requiere revisión académica humana.
 - El diploma es una acreditación privada, no un título oficial ni una certificación de fabricante.
 - El catálogo describe programas; no incluye por sí solo clases completas, docente, equipos, prácticas contratadas ni tutoría individual.
