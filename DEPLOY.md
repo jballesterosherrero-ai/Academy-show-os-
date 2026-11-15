@@ -68,3 +68,42 @@ En SHOW OS CAMPUS → Simulador IA:
 - La evaluación local es orientativa y no acredita niveles. La copia de progreso importa/exporta únicamente lecciones marcadas; no transfiere notas ni aprobados. La aprobación del tutor conectado también requiere revisión académica humana.
 - El diploma es una acreditación privada, no un título oficial ni una certificación de fabricante.
 - El catálogo describe programas; no incluye por sí solo clases completas, docente, equipos, prácticas contratadas ni tutoría individual.
+
+
+## Publicación automática a IONOS desde GitHub
+
+El repositorio incluye un despliegue manual para publicar la web en IONOS mediante SFTP:
+
+- Servidor: `access-5021514183.webspace-host.com`
+- Puerto: `22`
+- Protocolo: SFTP
+- Archivo que se publica: únicamente `index.html` en la carpeta de SHOW OS CAMPUS.
+- Antes de sustituirlo, el proceso guarda el archivo anterior como artefacto descargable de GitHub Actions durante 30 días.
+- La conexión verifica la huella SHA-256 contra las huellas oficiales publicadas por IONOS. Si no coincide, la conexión se rechaza.
+
+### Configuración inicial (una sola vez)
+
+En GitHub, abre el repositorio → **Settings → Secrets and variables → Actions**.
+
+En **Secrets**, crea estos dos secretos:
+
+| Nombre | Valor |
+|---|---|
+| `IONOS_SFTP_USER` | Nombre de usuario SFTP de IONOS |
+| `IONOS_SFTP_PASSWORD` | Contraseña del usuario SFTP |
+
+En **Variables**, crea `IONOS_REMOTE_DIR` con uno de estos valores:
+
+- `/show-os-campus` si la cuenta SFTP tiene acceso a todo el espacio web.
+- `/` si la cuenta SFTP está limitada desde IONOS a la carpeta `show-os-campus` (esa carpeta será la raíz visible para esa cuenta).
+
+No introduzcas la contraseña en archivos del repositorio, incidencias ni conversaciones.
+
+### Ejecutar la publicación
+
+1. Abre la pestaña **Actions** del repositorio.
+2. Selecciona **Publicar SHOW OS CAMPUS en IONOS**.
+3. Pulsa **Run workflow**, elige la rama `main` y confirma **Run workflow**.
+4. Comprueba que el resultado aparece en verde. Si falla, abre el detalle del paso que ha fallado; nunca copies secretos ni contraseñas en los registros.
+
+Esta publicación solo actualiza la web estática. No despliega el Worker de Cloudflare.
