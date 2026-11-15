@@ -72,8 +72,14 @@ document.getElementById('courseSearch')?.addEventListener('input',()=>renderCour
 document.getElementById('courseGrid')?.addEventListener('change',e=>{const cb=e.target;if(!cb.matches('input[type=checkbox][data-course]'))return;const id=cb.dataset.course,key=cb.dataset.lesson;courseProgress[id]=courseProgress[id]||[];courseProgress[id]=cb.checked?[...new Set([...courseProgress[id],key])]:courseProgress[id].filter(x=>x!==key);storeJson('showos-course-progress',courseProgress);renderCourses();});
 renderCourses();
 
-let data=JSON.parse(localStorage.getItem('showos-progress')||'{"passed":{},"scores":{}}');
-function save(){localStorage.setItem('showos-progress',JSON.stringify(data));updateProgress()}
+let data=readStoredJson('showos-progress',{passed:{},scores:{}});
+if(!data||typeof data!=='object'||!data.passed||typeof data.passed!=='object'||!data.scores||typeof data.scores!=='object')data={passed:{},scores:{}};
+if(localStorage.getItem('showos-assessment-version')!=='2'){
+ try{const legacy=localStorage.getItem('showos-progress');if(legacy)localStorage.setItem('showos-legacy-progress-unverified',legacy)}catch{}
+ data={passed:{},scores:{}};storeJson('showos-progress',data);
+ try{localStorage.setItem('showos-assessment-version','2')}catch{}
+}
+function save(){storeJson('showos-progress',data);updateProgress()}
 function showPage(p){document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));document.getElementById(p).classList.remove('hidden');document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===p));let titles={home:['Domina el show. Controla el sistema.','Formación basada en el trabajo real de un técnico de vídeo y pantallas LED.'],day:['Un día en el puesto de trabajo','La jornada operativa, paso a paso.'],systems:['Sistemas y competencias','El mapa de conocimientos que exige el puesto.'],courses:['Cursos profesionales','Programas de especialización, prácticas y evidencias de dominio.'],sim:['Simulador de incidencias','Diagnóstico, criterio y respuesta bajo presión.'],cert:['Tu acreditación profesional','Demuestra competencias y genera tu documento.'],profile:['Mi expediente','Historial de evaluación y progreso.']};pageTitle.textContent=titles[p][0];pageSub.textContent=titles[p][1];if(p==='profile')renderProfile()}
 document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
 stages.forEach(s=>{let d=document.createElement('details');d.className='stage';d.innerHTML=`<summary style="cursor:pointer;list-style:none;display:flex;gap:13px"><span class="time">${s[0]}</span><b>${s[1]}</b><span class="muted">＋</span></summary><ul class="list">${s[2].map(x=>`<li>${x}</li>`).join('')}</ul>`;document.getElementById('stages').append(d)});
