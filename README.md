@@ -12,7 +12,7 @@ Plataforma de formación operativa para técnicos de vídeo, pantallas LED, proc
 - Buscador por especialidad, equipos y competencias en los siete cursos.
 - Resumen global de cursos, lecciones y progreso.
 - Conservación del curso abierto al marcar lecciones.
-- Exportación e importación de copia de seguridad del progreso.
+- Exportación e importación de copia de seguridad de lecciones completadas; las notas y aprobados no se importan.
 - Comprobación de salud del Worker desde el campus.
 - Validación de tipo, forma y tamaño de las peticiones al Worker.
 - Evaluación local solo de práctica; ya no aprueba niveles ni modifica el expediente.
