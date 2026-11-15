@@ -26,16 +26,16 @@ jobs:
       - name: Publicar index.html con verificación de servidor
         id: deploy
         env:
-          IONOS_SFTP_USER: \${{ secrets.IONOS_SFTP_USER }}
-          IONOS_SFTP_PASSWORD: \${{ secrets.IONOS_SFTP_PASSWORD }}
-          IONOS_REMOTE_DIR: \${{ vars.IONOS_REMOTE_DIR }}
+          IONOS_SFTP_USER: ${{ secrets.IONOS_SFTP_USER }}
+          IONOS_SFTP_PASSWORD: ${{ secrets.IONOS_SFTP_PASSWORD }}
+          IONOS_REMOTE_DIR: ${{ vars.IONOS_REMOTE_DIR }}
         run: node scripts/deploy-ionos.cjs
 
       - name: Guardar copia del index.html anterior
         if: always() && steps.deploy.outputs.had_existing == 'true'
         uses: actions/upload-artifact@v4
         with:
-          name: show-os-ionos-backup-\${{ github.run_id }}
+          name: show-os-ionos-backup-${{ github.run_id }}
           path: deploy-backup/index.html
           if-no-files-found: error
           retention-days: 30
