@@ -16,6 +16,7 @@ Plataforma de formación operativa para técnicos de vídeo, pantallas LED, proc
 - Comprobación de salud del Worker desde el campus.
 - Validación de tipo, forma y tamaño de las peticiones al Worker.
 - Evaluación local solo de práctica; ya no aprueba niveles ni modifica el expediente.
+- Migración inicial: los aprobados antiguos se guardan como copia local no verificada y dejan de contar en el expediente activo.
 - Diploma marcado como vista previa no verificable.
 - Mejoras de accesibilidad, foco de teclado y movimiento reducido.
 
