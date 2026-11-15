@@ -1,8 +1,6 @@
 name: Publicar SHOW OS CAMPUS en IONOS
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
