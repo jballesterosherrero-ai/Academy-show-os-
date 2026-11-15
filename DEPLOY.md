@@ -20,6 +20,7 @@ No cambies DNS ni borres otras carpetas del hosting.
 - Guarda el curso abierto mientras marcas lecciones.
 - Copia de seguridad exportable e importable del progreso.
 - La evaluación local es solo orientativa: no aprueba ni modifica el expediente.
+- Al abrir v1.1 por primera vez, las notas/aprobados del esquema anterior se guardan como copia local no verificada y se retiran del expediente activo.
 - Prueba de salud del Worker desde el simulador.
 - Diploma identificado como vista previa no verificable.
 - Mejoras de accesibilidad y validación del almacenamiento local.
