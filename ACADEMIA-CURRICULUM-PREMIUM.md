@@ -1,6 +1,6 @@
 # SHOW OS CAMPUS — Programa académico premium
 
-**Versión de diseño:** 19 de noviembre de 2026 · v1.3  
+**Versión de diseño:** 19 de noviembre de 2026 · v1.4  
 **Entidad formativa:** SHOW OS By Muelle  
 **Precio objetivo de diseño:** 1.500 € por curso (propuesta; no es una tarifa publicada ni una matrícula abierta).
 
@@ -8,7 +8,7 @@
 
 El precio solo sería defendible si el curso contratado ofrece más que vídeos y un chatbot: entre 36 y 64 horas de trabajo guiado; prácticas supervisadas sobre hardware real o laboratorio equivalente; acceso a simuladores y plantillas de producción; corrección individual de entregables por un técnico instructor; tutoría de dudas; evaluación práctica con rúbrica; feedback escrito y una oportunidad de reevaluación. Las horas, el acceso a equipos, las fechas y los servicios incluidos deben aparecer por escrito antes de venderse.
 
-La versión beta 1.3 incluye 15 lecciones desarrolladas del Curso 01 (Ingeniería LED): cada clase presenta objetivo, explicación técnica, secuencia de trabajo, errores frecuentes y una pregunta de comprobación con respuesta orientativa. El resto del catálogo conserva por ahora el programa, las prácticas propuestas y las evidencias; sus clases completas se desarrollarán en las siguientes fases. El campus permite marcar lecciones en el navegador. No incluye por sí solo la docencia humana, el préstamo de equipos, las prácticas presenciales, la sincronización entre dispositivos ni el soporte comercial que harían falta para ofrecer cada curso a 1.500 €.
+La versión beta 1.3 incluye 15 lecciones desarrolladas del Curso 01 (Ingeniería LED): cada clase presenta objetivo, explicación técnica, secuencia de trabajo, errores frecuentes y una pregunta de comprobación con respuesta orientativa. El Curso 02 también incorpora 15 guías de lección sobre H9/H9 Enhanced, dimensionamiento, comunicación H9/NovaLCT, ficheros RCFGX/RCFG, compatibilidad de módulos, conexión de receiving cards, mapping, rendimiento, calibración, respaldos, redundancia y rollback. Los cursos 03 a 07 conservan por ahora el programa, las prácticas propuestas y las evidencias; sus clases completas se desarrollarán en las siguientes fases. El campus permite marcar lecciones en el navegador. No incluye por sí solo la docencia humana, el préstamo de equipos, las prácticas presenciales, la sincronización entre dispositivos ni el soporte comercial que harían falta para ofrecer cada curso a 1.500 €.
 
 ## Catálogo de cursos
 
@@ -595,3 +595,19 @@ Los cursos 02 a 07 mantienen su mapa de competencias, unidades, prácticas, evid
 - Publicar perfil y experiencia de instructores, calendario, política de evaluación, repetición, cancelación y soporte.
 - Probar el seguimiento de alumnos, guardado de evidencias y emisión/verificación de certificados.
 - Revisar costes reales de hardware, instructor, sala, consumibles, licencias, seguros, impuestos y soporte antes de fijar el margen.
+
+
+## Material didáctico incorporado en v1.4
+
+### Curso 02 — NovaStar H9 y NovaLCT
+
+Las 15 lecciones del curso se han desarrollado en cinco unidades. Cada clase dispone de objetivo, explicación, secuencia de trabajo, errores frecuentes, pregunta de comprobación y respuesta orientativa.
+
+**Fuentes oficiales utilizadas para el contenido:**
+- H9 Video Wall Splicer Specifications V1.17.0.
+- H Series Video Wall Splicers User Manual V1.15.0.
+- NovaLCT LED Configuration Tool for Synchronous Control System User Manual V5.9.2.
+- Página oficial de descargas de NovaLCT V5.9.2.
+
+Las clases diferencian H9 y H9 Enhanced y evitan presentar capacidades, parámetros de receiving card, scan, timing o firmware como valores universales. Las operaciones de envío a hardware se plantean con lectura previa, copia, selección de destino y prueba controlada. Los cambios de firmware, calibración avanzada y maniobras de redundancia requieren documentación exacta del equipo, personal competente y plan de reversión.
+
