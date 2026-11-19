@@ -1,6 +1,6 @@
 # SHOW OS CAMPUS — Programa académico premium
 
-**Versión de diseño:** 13 de noviembre de 2026  
+**Versión de diseño:** 19 de noviembre de 2026 · v1.3  
 **Entidad formativa:** SHOW OS By Muelle  
 **Precio objetivo de diseño:** 1.500 € por curso (propuesta; no es una tarifa publicada ni una matrícula abierta).
 
@@ -8,7 +8,7 @@
 
 El precio solo sería defendible si el curso contratado ofrece más que vídeos y un chatbot: entre 36 y 64 horas de trabajo guiado; prácticas supervisadas sobre hardware real o laboratorio equivalente; acceso a simuladores y plantillas de producción; corrección individual de entregables por un técnico instructor; tutoría de dudas; evaluación práctica con rúbrica; feedback escrito y una oportunidad de reevaluación. Las horas, el acceso a equipos, las fechas y los servicios incluidos deben aparecer por escrito antes de venderse.
 
-La versión beta actual presenta el plan de estudios y permite marcar lecciones en el navegador. No incluye por sí sola la docencia humana, el préstamo de equipos, las prácticas presenciales, la sincronización entre dispositivos ni el soporte comercial que harían falta para ofrecer cada curso a 1.500 €.
+La versión beta 1.3 incluye 15 lecciones desarrolladas del Curso 01 (Ingeniería LED): cada clase presenta objetivo, explicación técnica, secuencia de trabajo, errores frecuentes y una pregunta de comprobación con respuesta orientativa. El resto del catálogo conserva por ahora el programa, las prácticas propuestas y las evidencias; sus clases completas se desarrollarán en las siguientes fases. El campus permite marcar lecciones en el navegador. No incluye por sí solo la docencia humana, el préstamo de equipos, las prácticas presenciales, la sincronización entre dispositivos ni el soporte comercial que harían falta para ofrecer cada curso a 1.500 €.
 
 ## Catálogo de cursos
 
@@ -556,6 +556,27 @@ La versión beta actual presenta el plan de estudios y permite marcar lecciones 
 - [Dataton · Help Center](https://www.dataton.com/help-center) — Manuales WATCHOUT y WATCHPAX para el sistema concreto.
 
 ---
+
+
+
+## Material didáctico incorporado en v1.3
+
+### Curso 01 — Ingeniería LED y operación profesional de eventos
+
+Las 15 lecciones de sus cinco unidades ya disponen de una guía de estudio desplegable:
+
+- Objetivo de aprendizaje observable.
+- Explicación técnica con vocabulario y límites de aplicación.
+- Secuencia de trabajo orientada a documentación, comprobación y diagnóstico.
+- Errores frecuentes que el alumno debe evitar.
+- Pregunta de comprobación y respuesta orientativa.
+- Referencias normativas en la unidad de seguridad eléctrica.
+
+La guía es material formativo de apoyo, no una autorización para intervenir en instalaciones eléctricas, estructuras o equipos fuera de la competencia del alumno. Los cálculos, parámetros y procedimientos específicos se validan con documentación de la referencia instalada y el responsable competente.
+
+### Estado de los demás cursos
+
+Los cursos 02 a 07 mantienen su mapa de competencias, unidades, prácticas, evidencias, proyecto final y recursos del fabricante. Sus 87 lecciones restantes todavía necesitan apuntes completos y revisión técnica antes de presentarse como clases terminadas.
 
 ## Requisitos académicos comunes
 
