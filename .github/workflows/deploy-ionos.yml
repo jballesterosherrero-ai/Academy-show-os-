@@ -2,6 +2,13 @@ name: Publicar SHOW OS CAMPUS en IONOS
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'index.html'
+      - 'scripts/deploy-ionos.cjs'
+      - '.github/workflows/deploy-ionos.yml'
 
 permissions:
   contents: read
