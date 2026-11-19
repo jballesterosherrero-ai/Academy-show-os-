@@ -1,0 +1,31 @@
+name: Comprobar conexión SFTP IONOS
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-connection:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Preparar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Instalar cliente SFTP
+        run: npm install --no-save --package-lock=false --no-audit --no-fund ssh2-sftp-client@12.1.1
+
+      - name: Comprobar acceso SFTP sin modificar archivos
+        env:
+          IONOS_SFTP_USER: \${{ secrets.IONOS_SFTP_USER }}
+          IONOS_SFTP_PASSWORD: \${{ secrets.IONOS_SFTP_PASSWORD }}
+          IONOS_REMOTE_DIR: \${{ vars.IONOS_REMOTE_DIR }}
+        run: node scripts/check-ionos-sftp.cjs
