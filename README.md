@@ -1,4 +1,4 @@
-# SHOW OS CAMPUS — Academia técnica beta · v1.2
+# SHOW OS CAMPUS — Academia técnica beta · v1.3
 
 Plataforma de formación operativa para técnicos de vídeo, pantallas LED, procesado, playback, fibra óptica, redes y reparación electrónica.
 
@@ -8,7 +8,7 @@ Plataforma de formación operativa para técnicos de vídeo, pantallas LED, proc
 - El Worker llama a OpenAI Responses API y devuelve una rúbrica estructurada.
 - Las claves y códigos privados se guardan exclusivamente como secretos de Cloudflare.
 
-## Mejoras v1.1
+## Mejoras v1.3
 - Buscador por especialidad, equipos y competencias en los siete cursos.
 - Resumen global de cursos, lecciones y progreso.
 - Conservación del curso abierto al marcar lecciones.
@@ -19,6 +19,8 @@ Plataforma de formación operativa para técnicos de vídeo, pantallas LED, proc
 - Migración inicial: los aprobados antiguos se guardan como copia local no verificada y dejan de contar en el expediente activo.
 - Diploma marcado como vista previa no verificable.
 - Mejoras de accesibilidad, foco de teclado y movimiento reducido.
+- Curso 01: 15 lecciones con objetivos, explicación técnica, secuencia de trabajo, errores frecuentes y pregunta de comprobación con respuesta orientativa.
+- Aula desplegable por lección y progreso de estudio independiente del despliegue de cada clase.
 
 ## Catálogo
 7 cursos, 34 unidades y 102 lecciones; carga horaria propuesta de 348 horas. Los 1.500 € son un precio objetivo de diseño, no una tarifa comercial publicada. Para justificar ese precio hacen falta docencia, prácticas supervisadas, equipos/laboratorio, revisión individual y evaluación real.
