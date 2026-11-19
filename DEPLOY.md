@@ -6,7 +6,7 @@ La dirección objetivo del campus es:
 
 `https://academy.muelleaudiovisuales.com/`
 
-El subdominio debe estar conectado en IONOS a un directorio concreto del espacio web. **No se debe asumir que la carpeta se llama `show-os-campus`**: usa el destino que aparezca en IONOS para `academy.muelleaudiovisuales.com`.
+El subdominio debe estar conectado en IONOS a la carpeta `/show-os-campus/`, y el archivo de entrada debe quedar exactamente en `/show-os-campus/index.html`. El destino que has confirmado es esa carpeta.
 
 En IONOS: **Menú → Dominios & SSL → academy.muelleaudiovisuales.com → Destino**. Anota la ruta exacta del directorio. Si el subdominio todavía no está conectado al espacio web, conéctalo primero a una carpeta dedicada al campus y comprueba que el estado figure como Activo. No cambies DNS ni la carpeta de otros dominios.
 
@@ -87,7 +87,7 @@ El repositorio incluye un despliegue manual para publicar la web en IONOS median
 - Puerto: `22`
 - Protocolo: SFTP
 - Archivo que se publica: únicamente `index.html`.
-- Destino remoto: el directorio que aparece en IONOS bajo **Dominios & SSL → academy.muelleaudiovisuales.com → Destino**.
+- Destino remoto confirmado: `/show-os-campus/index.html` (el script sube el archivo al directorio `/show-os-campus/`).
 - Antes de sustituirlo, el proceso guarda el archivo anterior como artefacto descargable de GitHub Actions durante 30 días.
 - La conexión verifica la huella SHA-256 contra las huellas IONOS admitidas. Si no coincide, se rechaza la conexión.
 
@@ -102,9 +102,7 @@ En **Repository secrets**, crea:
 | `IONOS_SFTP_USER` | Nombre de usuario SFTP de IONOS |
 | `IONOS_SFTP_PASSWORD` | Contraseña del usuario SFTP |
 
-En **Variables**, crea `IONOS_REMOTE_DIR` con la ruta exacta del destino de tu subdominio. Por ejemplo, si IONOS muestra `/academy`, usa `/academy`. Si el usuario SFTP está limitado directamente a esa carpeta y al iniciar sesión la ve como raíz, usa `/`.
-
-No se establece una ruta predeterminada deliberadamente: así se evita publicar por error sobre el sitio equivocado.
+El destino confirmado es `/show-os-campus`. El proceso utiliza esa ruta por defecto, por lo que no hace falta crear la variable `IONOS_REMOTE_DIR` si el usuario SFTP puede acceder a esa carpeta desde la raíz del alojamiento. Si la cuenta SFTP está restringida en IONOS para que `/show-os-campus` sea su propia raíz visible, crea en **Variables** `IONOS_REMOTE_DIR` con valor `/`.
 
 No introduzcas contraseñas en archivos del repositorio, incidencias ni conversaciones.
 
