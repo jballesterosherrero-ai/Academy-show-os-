@@ -1,18 +1,26 @@
-# Publicación v1.1 — SHOW OS CAMPUS
+# Publicación v1.2 — SHOW OS CAMPUS
 
-## IONOS: actualizar la web
+## Dirección pública
 
-El archivo de entrada debe quedar exactamente aquí:
+La dirección objetivo del campus es:
 
-`/show-os-campus/index.html`
+`https://academy.muelleaudiovisuales.com/`
 
-1. En el Administrador de archivos de IONOS, abre la carpeta pública `show-os-campus`.
-2. Descarga una copia del `index.html` actual antes de sustituirlo.
-3. Sube el `index.html` de la raíz del repositorio directamente dentro de `show-os-campus`.
-4. No dejes carpetas intermedias, por ejemplo `show-os-campus/SHOW_OS_CAMPUS_PUBLICACION_IONOS/IONOS/index.html`.
-5. Abre `https://muelleaudiovisuales.com/show-os-campus/`. Si aparece una copia antigua, prueba una ventana privada o una recarga completa.
+El subdominio debe estar conectado en IONOS a un directorio concreto del espacio web. **No se debe asumir que la carpeta se llama `show-os-campus`**: usa el destino que aparezca en IONOS para `academy.muelleaudiovisuales.com`.
 
-No cambies DNS ni borres otras carpetas del hosting.
+En IONOS: **Menú → Dominios & SSL → academy.muelleaudiovisuales.com → Destino**. Anota la ruta exacta del directorio. Si el subdominio todavía no está conectado al espacio web, conéctalo primero a una carpeta dedicada al campus y comprueba que el estado figure como Activo. No cambies DNS ni la carpeta de otros dominios.
+
+## IONOS: publicación segura
+
+El flujo de GitHub Actions publica únicamente el archivo `index.html` en el directorio configurado. Antes de sustituir un `index.html` existente, lo guarda como artefacto de respaldo durante 30 días.
+
+1. Comprueba que el destino del subdominio sea una carpeta dedicada al campus.
+2. Asegúrate de que la cuenta SFTP puede escribir en esa carpeta.
+3. En GitHub, configura los secretos y la variable descritos en la sección «Publicación automática a IONOS desde GitHub».
+4. Ejecuta el flujo manual **Actions → Publicar SHOW OS CAMPUS en IONOS → Run workflow**.
+5. Solo considera publicada la web cuando el flujo termine en verde y puedas abrir `https://academy.muelleaudiovisuales.com/`.
+
+El flujo comprueba la huella SHA-256 del servidor IONOS y la integridad del archivo transferido. Si el destino no existe, no se publica. Si falla la comprobación después del cambio, intenta restaurar el archivo anterior.
 
 ## Mejoras incluidas en v1.1
 
@@ -41,7 +49,7 @@ En `show-os-tutor` → Settings → Variables and Secrets:
 | `OPENAI_API_KEY` | Secret | Clave del proyecto OpenAI |
 | `SHOWOS_BETA_CODE` | Secret | Código privado aleatorio de al menos 16 caracteres |
 | `OPENAI_MODEL` | Text | `gpt-6.1-sol` |
-| `ALLOWED_ORIGIN` | Text | `https://muelleaudiovisuales.com` |
+| `ALLOWED_ORIGIN` | Text | `https://academy.muelleaudiovisuales.com` |
 
 No pegues la clave OpenAI ni el código beta en GitHub, el HTML, capturas o conversaciones.
 
@@ -74,36 +82,37 @@ En SHOW OS CAMPUS → Simulador IA:
 
 El repositorio incluye un despliegue manual para publicar la web en IONOS mediante SFTP:
 
-- Servidor: `access-5021514183.webspace-host.com`
+- Dirección pública: `https://academy.muelleaudiovisuales.com/`
+- Servidor SFTP: `access-5021514183.webspace-host.com`
 - Puerto: `22`
 - Protocolo: SFTP
-- Archivo que se publica: únicamente `index.html` en la carpeta de SHOW OS CAMPUS.
+- Archivo que se publica: únicamente `index.html`.
+- Destino remoto: el directorio que aparece en IONOS bajo **Dominios & SSL → academy.muelleaudiovisuales.com → Destino**.
 - Antes de sustituirlo, el proceso guarda el archivo anterior como artefacto descargable de GitHub Actions durante 30 días.
-- La conexión verifica la huella SHA-256 contra las huellas oficiales publicadas por IONOS. Si no coincide, la conexión se rechaza.
+- La conexión verifica la huella SHA-256 contra las huellas IONOS admitidas. Si no coincide, se rechaza la conexión.
 
-### Configuración inicial (una sola vez)
+### Configuración inicial
 
 En GitHub, abre el repositorio → **Settings → Secrets and variables → Actions**.
 
-En **Secrets**, crea estos dos secretos:
+En **Repository secrets**, crea:
 
 | Nombre | Valor |
 |---|---|
 | `IONOS_SFTP_USER` | Nombre de usuario SFTP de IONOS |
 | `IONOS_SFTP_PASSWORD` | Contraseña del usuario SFTP |
 
-En **Variables**, crea `IONOS_REMOTE_DIR` con uno de estos valores:
+En **Variables**, crea `IONOS_REMOTE_DIR` con la ruta exacta del destino de tu subdominio. Por ejemplo, si IONOS muestra `/academy`, usa `/academy`. Si el usuario SFTP está limitado directamente a esa carpeta y al iniciar sesión la ve como raíz, usa `/`.
 
-- `/show-os-campus` si la cuenta SFTP tiene acceso a todo el espacio web.
-- `/` si la cuenta SFTP está limitada desde IONOS a la carpeta `show-os-campus` (esa carpeta será la raíz visible para esa cuenta).
+No se establece una ruta predeterminada deliberadamente: así se evita publicar por error sobre el sitio equivocado.
 
-No introduzcas la contraseña en archivos del repositorio, incidencias ni conversaciones.
+No introduzcas contraseñas en archivos del repositorio, incidencias ni conversaciones.
 
 ### Ejecutar la publicación
 
 1. Abre la pestaña **Actions** del repositorio.
 2. Selecciona **Publicar SHOW OS CAMPUS en IONOS**.
-3. Pulsa **Run workflow**, elige la rama `main` y confirma **Run workflow**.
-4. Comprueba que el resultado aparece en verde. Si falla, abre el detalle del paso que ha fallado; nunca copies secretos ni contraseñas en los registros.
+3. Pulsa **Run workflow**, elige la rama `main` y confirma.
+4. Comprueba que el resultado aparece en verde y visita `https://academy.muelleaudiovisuales.com/`.
 
 Esta publicación solo actualiza la web estática. No despliega el Worker de Cloudflare.
