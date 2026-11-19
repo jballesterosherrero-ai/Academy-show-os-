@@ -1,4 +1,4 @@
-# SHOW OS CAMPUS — Academia técnica beta · v1.1
+# SHOW OS CAMPUS — Academia técnica beta · v1.2
 
 Plataforma de formación operativa para técnicos de vídeo, pantallas LED, procesado, playback, fibra óptica, redes y reparación electrónica.
 
