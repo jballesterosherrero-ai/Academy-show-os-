@@ -166,7 +166,7 @@ La versión beta 1.3 incluye 15 lecciones desarrolladas del Curso 01 (Ingenierí
 **Documentación de referencia del fabricante**
 
 - [NovaStar H Series / H9](https://www.novastar.tech/product/detail.html?catid=3&id=39) — Características, tarjetas, manuales, firmware y notas de versión del H9. Comprobar revisión del hardware.
-- [Manual oficial NovaLCT V5.6.0](https://oss.novastar.tech/uploads/2024/07/NovaLCT-LED-Configuration-Tool-for-Synchronous-Control-System-User-Manual-V5.6.0.pdf) — Configuración de receiving cards y archivos .rcfgx/.rcfg; contrastar con la versión instalada.
+- [NovaLCT V5.9.2 · descarga y manuales oficiales](https://www.novastar.tech/index.php/product/detail.html?catid=3&id=36) — La página oficial lista el instalador y el Configuration Tool User Manual Synchronous V5.9.2. Usar siempre el manual correspondiente a la versión realmente instalada.
 - [NovaStar · NCE y formación](https://nce.novastar.tech/Certificate/detail.html?catid=1&id=4) — Alcance de formación y competencias del programa de ingeniería NovaStar; no equivale a la acreditación SHOW OS.
 
 ---
