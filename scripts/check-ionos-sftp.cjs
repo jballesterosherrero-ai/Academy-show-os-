@@ -8,7 +8,7 @@ const PORT = 22;
 
 const IONOS_HOST_KEY_FINGERPRINTS = new Set([
   "J4oM+B2g7zZWAI3DolXR1e4vdIMrGO301kEN14/slsQ", // ECDSA
-  "psLDE8kfhoS9GWrc/GTrdlF3w", // RSA
+  "psLDE8kfhoS9GWrc/GTrdlPvyKPcWcGZv2JxOCvwF3w", // RSA
   "1gx2w8Rtv3wCgi7Jh8myf/KVd72cRQbow03UP8P095Q", // ED25519
 ]);
 
