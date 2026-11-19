@@ -25,7 +25,7 @@ jobs:
 
       - name: Comprobar acceso SFTP sin modificar archivos
         env:
-          IONOS_SFTP_USER: \${{ secrets.IONOS_SFTP_USER }}
-          IONOS_SFTP_PASSWORD: \${{ secrets.IONOS_SFTP_PASSWORD }}
-          IONOS_REMOTE_DIR: \${{ vars.IONOS_REMOTE_DIR }}
+          IONOS_SFTP_USER: ${{ secrets.IONOS_SFTP_USER }}
+          IONOS_SFTP_PASSWORD: ${{ secrets.IONOS_SFTP_PASSWORD }}
+          IONOS_REMOTE_DIR: ${{ vars.IONOS_REMOTE_DIR }}
         run: node scripts/check-ionos-sftp.cjs
