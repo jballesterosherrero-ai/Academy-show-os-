@@ -26,7 +26,7 @@ function required(name) {
 }
 
 function remoteDirectory() {
-  const raw = (process.env.IONOS_REMOTE_DIR || "").trim();\n  if (!raw) {\n    throw new Error("Falta la variable IONOS_REMOTE_DIR: indica el destino exacto del subdominio en IONOS.");\n  }
+  const raw = (process.env.IONOS_REMOTE_DIR || "/show-os-campus").trim();
   if (!raw || raw.includes("..") || raw.includes("\0")) {
     throw new Error("IONOS_REMOTE_DIR no es una ruta válida.");
   }
