@@ -114,3 +114,17 @@ No introduzcas contraseñas en archivos del repositorio, incidencias ni conversa
 4. Comprueba que el resultado aparece en verde y visita `https://academy.muelleaudiovisuales.com/`.
 
 Esta publicación solo actualiza la web estática. No despliega el Worker de Cloudflare.
+
+
+## Comprobar SFTP antes de publicar
+
+He añadido una prueba de solo lectura para verificar credenciales, huella oficial del servidor y acceso a la carpeta `/show-os-campus` sin cambiar archivos.
+
+1. Abre **Actions → Comprobar conexión SFTP IONOS**.
+2. Pulsa **Run workflow** en la rama `main`.
+3. El resultado correcto indicará que la carpeta es accesible y si ya existe `index.html`.
+4. Solo después ejecuta **Actions → Publicar SHOW OS CAMPUS en IONOS**.
+
+Si la cuenta SFTP está limitada directamente a la carpeta `show-os-campus`, configura la variable `IONOS_REMOTE_DIR` como `/` en GitHub. En caso contrario, deja la variable vacía y se utilizará `/show-os-campus`.
+
+La prueba de conexión no sube, borra ni modifica ningún archivo.
